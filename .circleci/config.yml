@@ -6,7 +6,7 @@ jobs:
       - checkout
       - sfdx/install
       - sfdx/auth:
-          defaultusername: caiommendesp@gmail.com
+          defaultusername: caiommendesp@brave-fox-fwxydq.com
       - run:
           command: >
             echo You now have access to the sfdx cli and may execute commands
