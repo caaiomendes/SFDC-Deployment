@@ -15,7 +15,7 @@ jobs:
             sfdx auth:list
           name: Run your SFDX commands here
 orbs:
-  salesforce-sfdx: circleci/salesforce-sfdx@2.2.0
+  sfdx: circleci/salesforce-sfdx@2.2.0
 workflows:
   basic-test:
     jobs:
