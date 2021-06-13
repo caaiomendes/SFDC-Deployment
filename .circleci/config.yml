@@ -1,22 +1,46 @@
-version: 2.1
+version: 2
 jobs:
-  install_authenticate:
-    executor: sfdx/default
+  build:
+    docker:
+      - image: circleci/node:latest
     steps:
       - checkout
-      - sfdx/install
-      - sfdx/auth:
-          defaultusername: caiommendesp@brave-fox-fwxydq.com
       - run:
-          command: >
-            echo You now have access to the sfdx cli and may execute commands
-            against it.
-
-            sfdx auth:list
-          name: Run your SFDX commands here
-orbs:
-  sfdx: circleci/salesforce-sfdx@2.2.0
+          name: Install Dependencies
+          command: . build/install.sh
+      - run:
+          name: Create Scratch Org
+          command: . build/create-scratch-org.sh
+      - run:
+          name: Validate Components & Run Tests
+          command: . build/test.sh
+      - store_test_results:
+          path: test-results
+  deploy-prod:
+    docker:
+    - image: circleci/node:latest
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: . build/install.sh
+      - run:
+          name: Login to Production
+          command: . build/setup-prod.sh
+      - run:
+          name: Deploy to Production
+          command: . build/deploy-prod.sh
 workflows:
-  basic-test:
+  version: 2
+  validate:
     jobs:
-      - install_authenticate
+      - build:
+          filters:
+            branches:
+              ignore:
+                - master
+      - deploy-prod:
+          filters:
+            branches:
+              only:
+                - master
