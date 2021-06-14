@@ -4,7 +4,7 @@
     <caseSensitive>false</caseSensitive>
     <externalId>true</externalId>
     <label>Customer ID</label>
-    <length>18</length>
+    <length>16</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <type>Text</type>
